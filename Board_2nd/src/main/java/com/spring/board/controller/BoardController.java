@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,15 +18,17 @@ import com.spring.board.service.Query;
 @Controller
 public class BoardController {
 	
-	@Autowired
-	ApiCallSerivce apiCallService;
-	
 	Query query;
+	
+	@Autowired
+	private ApiCallSerivce apiCallService;
+	
+	
 	
 	@RequestMapping(value="/getBoardList.json", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> getBoardList(HttpServletRequest request,@RequestBody Map<String,Object>reqMap){
-		Map<String,Object> resMap = apiCallService.call(query, reqMap);
+		Map<String,Object> resMap = this.apiCallService.call(query.GET_BOARD_LIST, reqMap);
 		
 		return resMap;
 	}

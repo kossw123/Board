@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class BoardConstant {
 	@RequestMapping(value="/*.page", method=RequestMethod.GET)
 	public Model getPage(HttpServletRequest request, Model model){
+		
 		return model;
 	}
 }

@@ -34,14 +34,16 @@ public class ApiCallSerivce {
 	}
 	
 	public Map<String,Object> callMap(Query query, Map<String,Object> reqMap){
+		System.out.println(this.template);
+		Map<String,Object> resMap = this.template.queryForMap(query.getQuery());
 		
-		return this.template.queryForMap(query.getQuery());
+		return resMap;
 		
 	}
 	
 	public Map<String,Object> callUpdate(Query query,Map<String,Object> reqMap){
 		
-		int res_value = this.template.update(query.getQuery());
+		int res_value = 0;
 		Map<String,Object> resMap = new HashMap<String,Object>();
 		
 		if(res_value == 1){
