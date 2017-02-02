@@ -34,7 +34,7 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr height="5"><td width="5"></td></tr>
  <tr style="background:url('/resources/images/table_mid.gif') repeat-x; text-align:center;">  ////////////////////////////////////////
-   <td width="5"><img src="/resources/images/table_left.gif" width="5" height="30" /></td>	///////////////////////////////////////////
+   <td width="5"><img src="/resources/images/table_left.gif" width="5" height="30" /></td>	//////////////////////////////////////////
    <td width="73">Num</td>
    <td width="379">Title</td>
    <td width="73">Writer</td>
