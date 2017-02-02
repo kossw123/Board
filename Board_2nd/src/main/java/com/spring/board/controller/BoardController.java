@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.spring.board.exception.ApiCallException;
 import com.spring.board.service.ApiCallSerivce;
 import com.spring.board.service.Query;
 
@@ -25,8 +24,6 @@ public class BoardController {
 	
 	@Autowired
 	private ApiCallSerivce apiCallService;
-	
-	
 	
 	@RequestMapping(value="/getBoardList.json", method=RequestMethod.POST)
 	@ResponseBody
@@ -55,7 +52,14 @@ public class BoardController {
 	@RequestMapping(value="/writeBoardList.json", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> writeBoardList(HttpServletRequest request,@RequestBody Map<String,Object>reqMap){
-		Map<String,Object> resMap = null;
+		Map<String,Object> resMap;
+		
+		try{
+			resMap = this.apiCallService.call(Query.INSERT_BOARD_LIST, reqMap);
+		}catch(SQLException e){
+			resMap = new HashMap<String,Object>();
+			resMap.put("message", e.getMessage());
+		}
 		
 		return resMap;
 	}
@@ -63,7 +67,7 @@ public class BoardController {
 	@RequestMapping(value="/updateBoardList.json", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> updateBoardList(HttpServletRequest request,@RequestBody Map<String,Object>reqMap){
-		Map<String,Object> resMap = null;
+		Map<String,Object> resMap=null;
 		
 		return resMap;
 	}
