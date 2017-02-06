@@ -1,5 +1,6 @@
 package com.spring.board.controller;
 
+import java.security.InvalidParameterException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.board.exception.ApiCallException;
+import com.spring.board.exception.BoardException;
 import com.spring.board.service.ApiCallSerivce;
 import com.spring.board.service.Query;
 
@@ -55,10 +58,17 @@ public class BoardController {
 		Map<String,Object> resMap;
 		
 		try{
+			
+			if(!reqMap.containsKey("id") || !reqMap.containsKey("title") || !reqMap.containsKey("content")){
+				throw new InvalidParameterException();
+			}
+			
 			resMap = this.apiCallService.call(Query.INSERT_BOARD_LIST, reqMap);
 		}catch(SQLException e){
 			resMap = new HashMap<String,Object>();
 			resMap.put("message", e.getMessage());
+		}catch(InvalidParameterException e){
+			throw new BoardException("parameter","파라미터가 올바르지않습니다.");
 		}
 		
 		return resMap;
