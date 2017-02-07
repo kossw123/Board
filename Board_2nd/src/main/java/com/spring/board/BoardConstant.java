@@ -18,7 +18,7 @@ public class BoardConstant {
 	public Model getPage(HttpServletRequest request, Model model){
 		
 		if(logger.isDebugEnabled()){
-			logger.debug("요청된 페이지  " + request.getRequestURL().toString());
+			logger.debug("요청된 페이지  " + request.getRequestURI().toString());
 		}
 		
 		return model;
