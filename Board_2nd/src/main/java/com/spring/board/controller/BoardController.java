@@ -12,10 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.spring.board.exception.ApiCallException;
 import com.spring.board.exception.BoardException;
 import com.spring.board.service.ApiCallSerivce;
 import com.spring.board.service.Query;
@@ -23,8 +21,6 @@ import com.spring.board.service.Query;
 
 @Controller
 public class BoardController {
-	
-	Query query;
 	
 	@Autowired
 	private ApiCallSerivce apiCallService;
@@ -36,7 +32,7 @@ public class BoardController {
 		Map<String,Object> resMap;
 		
 		try{
-			resMap = this.apiCallService.call(query.GET_BOARD_LIST, reqMap);
+			resMap = this.apiCallService.call(Query.GET_BOARD_LIST, reqMap);
 		}catch(SQLException e){
 			resMap = new HashMap<String,Object>();
 			resMap.put("message", e.getMessage());
@@ -51,7 +47,7 @@ public class BoardController {
 		Map<String,Object> resMap = null;
 		
 		try{
-			resMap = this.apiCallService.call(query.DELTE_BOARD_LIST, reqMap);
+			resMap = this.apiCallService.call(Query.DELTE_BOARD_LIST, reqMap);
 		}catch(SQLException e){
 			resMap = new HashMap<String,Object>();
 			resMap.put("message", e.getMessage());
@@ -88,7 +84,7 @@ public class BoardController {
 		Map<String,Object> resMap=null;
 		
 		try{
-			resMap = this.apiCallService.call(query.UPDATE_BOARD_LIST, reqMap);
+			resMap = this.apiCallService.call(Query.UPDATE_BOARD_LIST, reqMap);
 		}catch(SQLException e){
 			resMap = new HashMap<String,Object>();
 			resMap.put("message", e.getMessage());

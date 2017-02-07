@@ -17,6 +17,10 @@ public class BoardConstant {
 	@RequestMapping(value="/*.page", method=RequestMethod.GET)
 	public Model getPage(HttpServletRequest request, Model model){
 		
+		if(logger.isDebugEnabled()){
+			logger.debug("요청된 페이지  " + request.getRequestURL().toString());
+		}
+		
 		return model;
 	}
 }
