@@ -22,9 +22,7 @@ public class ApiCallSerivce {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	private JdbcTemplate template;
-	@Autowired
-	private NamedParameterJdbcTemplate namedTemplate;
+	private NamedParameterJdbcTemplate jdbcTemplate;
 	
 	public ApiCallSerivce() {
 
@@ -42,76 +40,18 @@ public class ApiCallSerivce {
 			throws SQLException {
 
 		if (query.getQuery_type().equals("select")) {
-			return this.callList2(query, reqMap);
+			return this.callList(query, reqMap);
 		} else {
-			return this.callUpdate2(query, reqMap);
+			return this.callUpdate(query, reqMap);
 		}
 	}
-
-	public Object callMap(Query query, Map<String, Object> reqMap)
-			throws SQLException {
-
-		Map<String, Object> resMap;
-		try {
-			Map<String, Object> resultMap = this.template.queryForMap(query
-					.getQuery());
-
-			if (resultMap.isEmpty() || resultMap == null) {
-				throw new ApiCallException("게시물이 존재하지 않습니다.");
-			}
-			resMap = resultMap;
-		} catch (EmptyResultDataAccessException e) {
-			throw new ApiCallException("게시물이 존재하지 않습니다.");
-		}
-
-		return resMap;
-
-	}
-
+	
 	public Object callList(Query query, Map<String, Object> reqMap)
 			throws SQLException {
 		List<Map<String, Object>> resList;
 		try {
 
-			List<Map<String, Object>> list = this.template.queryForList(query
-					.getQuery());
-			if (list.isEmpty() || list == null) {
-				throw new ApiCallException("게시물이 존재하지 않습니다.");
-			}
-
-			resList = list;
-		} catch (EmptyResultDataAccessException e) {
-			throw new ApiCallException("게시물이 존재하지 않습니다.");
-		} catch (ApiCallException e) {
-			throw new ApiCallException("게시물이 존재하지 않습니다.");
-		} catch (Exception e) {
-			throw new ApiCallException("나머지 오류");
-		}
-
-		return resList;
-	}
-
-	public Map<String, Object> callUpdate(Query query,
-			Map<String, Object> reqMap) {
-
-		int res_value = this.template.update(query.getQuery(),reqMap);
-		Map<String, Object> resMap = new HashMap<String, Object>();
-
-		if (res_value == 1) {
-			resMap.put("message", true);
-		} else {
-			resMap.put("message", false);
-		}
-
-		return resMap;
-	}
-	
-	public Object callList2(Query query, Map<String, Object> reqMap)
-			throws SQLException {
-		List<Map<String, Object>> resList;
-		try {
-
-			List<Map<String, Object>> list = this.namedTemplate.queryForList(query.getQuery(), reqMap);
+			List<Map<String, Object>> list = this.jdbcTemplate.queryForList(query.getQuery(), reqMap);
 			
 			if (list.isEmpty() || list == null) {
 				throw new ApiCallException("게시물이 존재하지 않습니다.");
@@ -129,7 +69,7 @@ public class ApiCallSerivce {
 		return resList;
 	}
 	
-	public Map<String, Object> callUpdate2(Query query,
+	public Map<String, Object> callUpdate(Query query,
 			Map<String, Object> reqMap) throws SQLException {
 		
 		logger.info(reqMap.toString());
@@ -138,7 +78,7 @@ public class ApiCallSerivce {
 		reqMap.put("reg_date", new Date(System.currentTimeMillis()));
 		reqMap.put("mod_date", new Date(System.currentTimeMillis()));
 		
-		int res_value = this.namedTemplate.update(query.getQuery(), reqMap);
+		int res_value = this.jdbcTemplate.update(query.getQuery(), reqMap);
 		Map<String, Object> resMap = new HashMap<String, Object>();
 
 		if (res_value == 1) {
