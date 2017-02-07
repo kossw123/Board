@@ -39,10 +39,12 @@ public class ApiCallSerivce {
 	public Object execute(Query query, Map<String, Object> reqMap)
 			throws SQLException {
 
-		if (query.getQuery_type().equals("select")) {
+		if (query.getQuery_type().equals("list")) {
 			return this.callList(query, reqMap);
-		} else {
+		} else if(query.getQuery_type().equals("update")){
 			return this.callUpdate(query, reqMap);
+		}else{
+			return null;
 		}
 	}
 	
@@ -74,9 +76,6 @@ public class ApiCallSerivce {
 		
 		logger.info(reqMap.toString());
 		logger.info(query.getQuery());
-		
-		reqMap.put("reg_date", new Date(System.currentTimeMillis()));
-		reqMap.put("mod_date", new Date(System.currentTimeMillis()));
 		
 		int res_value = this.jdbcTemplate.update(query.getQuery(), reqMap);
 		Map<String, Object> resMap = new HashMap<String, Object>();

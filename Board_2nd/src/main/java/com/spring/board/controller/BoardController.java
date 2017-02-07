@@ -50,6 +50,13 @@ public class BoardController {
 	public Map<String,Object> deleteBoardList(HttpServletRequest request,@RequestBody Map<String,Object>reqMap){
 		Map<String,Object> resMap = null;
 		
+		try{
+			resMap = this.apiCallService.call(query.DELTE_BOARD_LIST, reqMap);
+		}catch(SQLException e){
+			resMap = new HashMap<String,Object>();
+			resMap.put("message", e.getMessage());
+		}
+		
 		return resMap;
 	}
 	
@@ -79,6 +86,13 @@ public class BoardController {
 	@ResponseBody
 	public Map<String,Object> updateBoardList(HttpServletRequest request,@RequestBody Map<String,Object>reqMap){
 		Map<String,Object> resMap=null;
+		
+		try{
+			resMap = this.apiCallService.call(query.UPDATE_BOARD_LIST, reqMap);
+		}catch(SQLException e){
+			resMap = new HashMap<String,Object>();
+			resMap.put("message", e.getMessage());
+		}
 		
 		return resMap;
 	}
