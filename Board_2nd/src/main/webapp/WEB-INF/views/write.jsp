@@ -14,37 +14,41 @@
 	<table class="type01">
 		<tr>
 			<th scope="row">작성자</th>
-			<td><input type=text id="writer"></td>
+			<td><input type=text id="write_id" value=""></td>
 		</tr>
 		<tr>
 			<th scope="row">내용</th>
-			<td><input type=text id="content"></td>
+			<td><input type=text id="content" value=""></td>
+		</tr>
+		<tr>
+			<th scope="row">소제목</th>
+			<td><input type=text id="title" value=""></td>
 		</tr>
 		<tr>
 			<th scope="row">등록</th>
 			<td><a href="#" id="Sign">Sign</a></td>
 		</tr>
 
-	</table>
 
+	</table>
 </body>
+
 </html>
 <script>
 			$("document").ready(function() {
 				var addEvent = function() {
 					$("#Sign").on("click", function() {
 						insertboard();
-						location.href="index.page";
 					});
 				};
 		
 				var insertboard = function() {
-		
 					var param = {
-							"id" : "admin",
-							"title" : "title",
-							"content" : "test"
+							"id" : $("#write_id").val(),
+							"title" : $("#title").val(),
+							"content" : $("#content").val()
 					};
+					
 		
 					$.ajax({
 						type : "POST",
@@ -53,12 +57,22 @@
 						contentType : "application/json",
 						dataType : "json",
 						success : function(data) {
-							console.log("성공");
-							/* $('#out').html(data); */
-							/* $('#out').html(param.context); */
+							var a = "test123";
+							/* console.log("성공");
+							var writeID = $("#write_id").val();
+							var contentID = $("#content_id").val();
+							$("#out").val(writeID); */
+							var url = "index.page";
+							$(location).attr('href',url);
+							//$("#writer").val(data.id);
+							//console.log(JSON.parse(data));
+							
+							/* console.log(data);
+							console.log(data.result);
+							console.log(data.result.message); */
 						},
-						error : function(request,status,error) {
-							alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+						error : function(xhr) {
+							console.log(xhr);
 						}
 					});
 				}
