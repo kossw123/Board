@@ -35,4 +35,6 @@
 		<beans:constructor-arg ref="dataSource"/>
 	</beans:bean>
 	
+	<beans:bean id="boardQuery" class="com.spring.board.service.BoardQuery"/>
+	
 </beans:beans>

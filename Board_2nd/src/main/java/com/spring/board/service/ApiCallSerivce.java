@@ -1,6 +1,7 @@
 package com.spring.board.service;
 
-import java.sql.Date;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,10 @@ import com.spring.board.exception.ApiCallException;
 
 @Service
 public class ApiCallSerivce {
-
+	
+	@Autowired
+	private BoardQuery boardQuery;
+	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
@@ -37,23 +40,32 @@ public class ApiCallSerivce {
 	}
 
 	public Object execute(Query query, Map<String, Object> reqMap)
-			throws SQLException {
-
-		if (query.getQuery_type().equals("list")) {
-			return this.callList(query, reqMap);
-		} else if(query.getQuery_type().equals("update")){
-			return this.callUpdate(query, reqMap);
-		}else{
-			return null;
+			throws SQLException{
+		
+		String queryName="";
+		
+		try{
+			Method m = boardQuery.getClass().getMethod(query.getQuery(), new Class[]{});
+			queryName = (String)m.invoke(boardQuery, new Object[]{});
+		}catch(Exception e){
+			e.printStackTrace();
 		}
+		
+		if (query.getType().equals("list")) {
+			return this.callList(queryName, reqMap);
+		} else if(query.getType().equals("update")){
+			return this.callUpdate(queryName, reqMap);
+		}
+		
+		return null;
 	}
 	
-	public Object callList(Query query, Map<String, Object> reqMap)
+	public Object callList(String  queryName, Map<String, Object> reqMap)
 			throws SQLException {
 		List<Map<String, Object>> resList;
 		try {
 
-			List<Map<String, Object>> list = this.jdbcTemplate.queryForList(query.getQuery(), reqMap);
+			List<Map<String, Object>> list = this.jdbcTemplate.queryForList(queryName, reqMap);
 			
 			if (list.isEmpty() || list == null) {
 				throw new ApiCallException("게시물이 존재하지 않습니다.");
@@ -71,13 +83,13 @@ public class ApiCallSerivce {
 		return resList;
 	}
 	
-	public Map<String, Object> callUpdate(Query query,
+	public Map<String, Object> callUpdate(String  queryName,
 			Map<String, Object> reqMap) throws SQLException {
 		
 		logger.info(reqMap.toString());
-		logger.info(query.getQuery());
+		logger.info(queryName);
 		
-		int res_value = this.jdbcTemplate.update(query.getQuery(), reqMap);
+		int res_value = this.jdbcTemplate.update(queryName, reqMap);
 		Map<String, Object> resMap = new HashMap<String, Object>();
 
 		if (res_value == 1) {

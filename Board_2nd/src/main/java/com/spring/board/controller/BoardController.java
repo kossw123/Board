@@ -29,7 +29,7 @@ public class BoardController {
 	@ResponseBody
 	public Map<String,Object> getBoardList(HttpServletRequest request,@RequestBody Map<String,Object>reqMap){
 		
-		Map<String,Object> resMap;
+		Map<String,Object> resMap=null;
 		
 		try{
 			resMap = this.apiCallService.call(Query.GET_BOARD_LIST, reqMap);
@@ -59,7 +59,7 @@ public class BoardController {
 	@RequestMapping(value="/writeBoardList.json", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> writeBoardList(HttpServletRequest request,@RequestBody Map<String,Object>reqMap){
-		Map<String,Object> resMap;
+		Map<String,Object> resMap=null;
 		
 		try{
 			
