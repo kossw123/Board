@@ -1,6 +1,10 @@
 package com.spring.board.exception;
 
 public class BoardException extends RuntimeException {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7098893123201025270L;
 	private String code;
 	
 	public BoardException(){}
