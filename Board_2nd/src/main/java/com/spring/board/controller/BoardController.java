@@ -92,4 +92,19 @@ public class BoardController {
 		
 		return resMap;
 	}
+	
+	@RequestMapping(value="/viewBoardItem.json", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> viewBoardItem(HttpServletRequest request,@RequestBody Map<String,Object>reqMap){
+		Map<String,Object> resMap=null;
+		
+		try{
+			resMap = this.apiCallService.call(Query.VIEW_BOARD_ITEM, reqMap);
+		}catch(SQLException e){
+			resMap = new HashMap<String,Object>();
+			resMap.put("message", e.getMessage());
+		}
+		
+		return resMap;
+	}
 }
