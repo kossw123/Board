@@ -33,46 +33,60 @@
 		<input type='BUTTON' value='Main' onclick="location.href='Main.page';">
 	</body>
 </html>
- 	<script>
- 	$("document").ready(function() {
- 			
- 			//var ano_p_id = $.find("#writer");
- 			//$("#re_writer").append(ano_p_id);
- 			//$("#re_writer").load("Index.page", "#write_id");
- 			$("#re_writer").attr();
- 			var param = {
+<script>
+	$("document").ready(function() {
+		
+		var parsingUrl = function(str){
+			var map_string = str.split("&");
+			var resMap={};
+			for(var i=0;i<map_string.length;i++){
+				var spl = map_string[i].split("=");
+				resMap[spl[0]] = spl[1];
+			}
+			
+			return resMap;
+		};
+		
+		var url = location.search.slice(1);
+		
+		var paramMap = parsingUrl(url);
+		
+		var param = {
+			"seq" : paramMap.seq
+		};
+		
+		$.ajax({
+			type : 'post',
+			url : 'viewBoardItem.json',
+			contentType : "application/json",
+			dataType : 'json',
+			data : JSON.stringify(param),
+			success : function(data) {
+				console.log(data);
+			}
+		});
+		
+		
+		$('#Update').click(function() {
+	 		var param = {
+	 				"id" : "admin",
+	 				"title" : $("#re_title").text(),
+	 				"content" : $("#re_content").text(),
 	 				"seq" : "207"
-		 		}
- 			$.ajax({
- 				type : 'post',
- 				url : 'viewBoardItem.json',
- 				contentType : "application/json",
- 				dataType : 'json',
- 				data : JSON.stringify(param),
- 				success : function(data) {
- 					console.log(data);
- 				}
- 			})
- 			
- 		$('#Update').click(function() {
- 	 		var param = {
- 	 				"id" : "admin",
- 	 				"title" : $("#re_title").text(),
- 	 				"content" : $("#re_content").text(),
- 	 				"seq" : "207"
- 	 		}
- 			$.ajax({
- 				type : 'post',
- 				url : 'updateBoardList.json',
- 				contentType : "application/json",
- 				dataType : 'json',
- 				data : JSON.stringify(param),
- 				success : function(data) {
- 					console.log(data);
- 				}
- 			});
- 	});
- 		
- 		
- 	});
-	</script>
+	 		};
+	 		
+			$.ajax({
+				type : 'post',
+				url : 'updateBoardList.json',
+				contentType : "application/json",
+				dataType : 'json',
+				data : JSON.stringify(param),
+				success : function(data) {
+					console.log(data);
+				}
+			});
+		});
+		
+		
+	});
+</script>
