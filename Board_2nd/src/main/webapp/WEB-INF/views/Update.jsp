@@ -13,19 +13,15 @@
 		<link href="<c:url value='resources/css/update.css'/>" rel="stylesheet">
 		<table class="type01">
 			<tr>
-				<th scope="row">갱신할 SEQ</th>
-				<td><input type=text id="re_seq" value=""></td>
+				<th scope="row">작성자</th>
+				<td id="re_writer"></td>
 			</tr>
 			<tr>
-				<th scope="row">검색된 SEQ</th>
-				<td><input type=text id="search_seq" value=""></td>
+				<th scope="row">제목</th>
+				<td><input type=text id="re_title" value="" target="writer"></td>
 			</tr>
 			<tr>
-				<th scope="row">갱신할 작성자</th>
-				<td><input type=text id="re_writer" value=""></td>
-			</tr>
-			<tr>
-				<th scope="row">갱신할 내용</th>
+				<th scope="row">내용</th>
 				<td><input type=text id="re_content" value=""></td>
 			</tr>
 			<tr>
@@ -38,24 +34,45 @@
 	</body>
 </html>
  	<script>
- 	$('#Update').click(function() {
- 		var param = {
- 				"id" : "admin",
- 				"title" : "title",
- 				"content" : "test",
- 				"seq" : "123"
- 		}
-		$.ajax({
-			type : 'post',
-			url : 'updateBoardList.json',
-			contentType : "application/json",
-			dataType : 'json',
-			data : JSON.stringify(param),
-			success : function(data) {
-				console.log(data);
-				console.log(data.message);
-				//var load_seq = $("re_seq").val();
-			}
-		});
-});
+ 	$("document").ready(function() {
+ 			
+ 			//var ano_p_id = $.find("#writer");
+ 			//$("#re_writer").append(ano_p_id);
+ 			//$("#re_writer").load("Index.page", "#write_id");
+ 			$("#re_writer").attr();
+ 			var param = {
+	 				"seq" : "207"
+		 		}
+ 			$.ajax({
+ 				type : 'post',
+ 				url : 'viewBoardItem.json',
+ 				contentType : "application/json",
+ 				dataType : 'json',
+ 				data : JSON.stringify(param),
+ 				success : function(data) {
+ 					console.log(data);
+ 				}
+ 			})
+ 			
+ 		$('#Update').click(function() {
+ 	 		var param = {
+ 	 				"id" : "admin",
+ 	 				"title" : $("#re_title").text(),
+ 	 				"content" : $("#re_content").text(),
+ 	 				"seq" : "207"
+ 	 		}
+ 			$.ajax({
+ 				type : 'post',
+ 				url : 'updateBoardList.json',
+ 				contentType : "application/json",
+ 				dataType : 'json',
+ 				data : JSON.stringify(param),
+ 				success : function(data) {
+ 					console.log(data);
+ 				}
+ 			});
+ 	});
+ 		
+ 		
+ 	});
 	</script>
