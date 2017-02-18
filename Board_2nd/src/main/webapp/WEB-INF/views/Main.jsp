@@ -11,8 +11,7 @@
 
 <form action="">
 	<input type='BUTTON' value='글쓰기' onclick="location.href='Write.page';">
-	<input type='BUTTON' value='글목록' onclick="location.href='Index.page';">
-	<input type='BUTTON' value='글갱신' onclick="location.href='Update.page';">    
+	<input type='BUTTON' value='글목록' onclick="location.href='Index.page';">    
 </form>
 
 

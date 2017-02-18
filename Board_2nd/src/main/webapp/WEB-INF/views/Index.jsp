@@ -44,16 +44,16 @@
 				
 				var div = $("<div></div>");
 				var a = $("<a></a>");
-				
 				var items = data.result;
 				
 				for(var i=0;i<items.length;i++)
 				{
 					var item = items[i];
 					
-					var view = a.clone().append(div.clone().append(item.title + ", " + item.content)).attr("href","#");
+					var view = a.clone().append(	div.clone().append(item.title + ", " + item.content + item.seq)	).attr("href","Update.page?seq="+item.seq);
 					
 					Content.append(view);
+					
 				}
 			}
 		});

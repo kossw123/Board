@@ -18,10 +18,10 @@
 			</tr>
 			<tr>
 				<th scope="row">제목</th>
-				<td><input type=text id="re_title" value="" target="writer"></td>
+				<td><input type=text id="re_title" ></td>
 			</tr>
 			<tr>
-				<th scope="row">내용</th>
+				<th scope="row">내용</th>	
 				<td><input type=text id="re_content" value=""></td>
 			</tr>
 			<tr>
@@ -53,9 +53,9 @@
 		
 		var param = {
 			"seq" : paramMap.seq
-		};
+ 		};
 		
-		$.ajax({
+		$.ajax({	
 			type : 'post',
 			url : 'viewBoardItem.json',
 			contentType : "application/json",
@@ -63,16 +63,19 @@
 			data : JSON.stringify(param),
 			success : function(data) {
 				console.log(data);
+				$("#re_title").val(data.result[0].title);
+				$("#re_content").val(data.result[0].content);
+				$("#re_writer").append(data.result[0].id);
 			}
 		});
 		
 		
 		$('#Update').click(function() {
 	 		var param = {
-	 				"id" : "admin",
-	 				"title" : $("#re_title").text(),
-	 				"content" : $("#re_content").text(),
-	 				"seq" : "207"
+	 				"id" : $("#re_writer").text(),
+	 				"title" : $("#re_title").val(),
+	 				"content" : $("#re_content").val(),
+	 				"seq" : paramMap.seq
 	 		};
 	 		
 			$.ajax({
