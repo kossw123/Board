@@ -24,7 +24,7 @@
 			<td><input type=text id="title" value=""></td>
 		</tr>
 	</table> -->
-	<div id="Content">	</div>
+	<div id="Content"></div>
 	<input type='BUTTON' value='Main' onclick="location.href='Main.page';">
 	<input type='BUTTON' value='Update' onclick="location.href='Update.page';">        
 </body>
@@ -33,22 +33,30 @@
 	var Content = $("#Content");
 	
  	$(function() {
-			$.ajax({
-				type : 'post',
-				url : 'getBoardList.json',
-				contentType : "application/json",
-				dataType : 'json',
-				data : JSON.stringify({}),
-				success : function(data) {
-					console.log(data);
-					var div = $("<div></div>");
-					for(var i=0;i<data.result.length;i++)
-					{
-						var item = div.clone().html(data.result[i]);
-						Content.append(item);
-					}
+		$.ajax({
+			type : 'post',
+			url : 'getBoardList.json',
+			contentType : "application/json",
+			dataType : 'json',
+			data : JSON.stringify({}),
+			success : function(data) {
+				console.log(data);
+				
+				var div = $("<div></div>");
+				var a = $("<a></a>");
+				
+				var items = data.result;
+				
+				for(var i=0;i<items.length;i++)
+				{
+					var item = items[i];
+					
+					var view = a.clone().append(div.clone().append(item.title + ", " + item.content)).attr("href","#");
+					
+					Content.append(view);
 				}
-			});
+			}
+		});
 	})
 </script>
 </html>
