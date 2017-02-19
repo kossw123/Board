@@ -10,23 +10,10 @@
 <link href="<c:url value='resources/css/index.css'/>" rel="stylesheet">
 </head>
 <body>
-<!-- 	<table class="type01">
-		<tr>
-			<th scope="row">입력자</th>
-			<td><input type=text id="writer" value=""></td>
-		</tr>
-		<tr>
-			<th scope="row">입력내용</th>
-			<td><input type=text id="content" value=""></td>
-		</tr>
-		<tr>
-			<th scope="row">title</th>
-			<td><input type=text id="title" value=""></td>
-		</tr>
-	</table> -->
 	<div id="Content"></div>
 	<input type='BUTTON' value='Main' onclick="location.href='Main.page';">
-	<input type='BUTTON' value='Update' onclick="location.href='Update.page';">        
+	<input type='BUTTON' value='Update' onclick="location.href='Update.page';">
+	        
 </body>
 
 <script>
@@ -44,17 +31,37 @@
 				
 				var div = $("<div></div>");
 				var a = $("<a></a>");
-				var items = data.result;
+				var button = $("<input type='button' class='delid' value='삭제'/>");				// id로 쓸시에 하나의 고유한 태그로 인식되어 seq가 하나밖에 안찍힘(맨처음), class로 찍을시 하나가 아닌 여러개의
+				var items = data.result;														
 				
 				for(var i=0;i<items.length;i++)
 				{
 					var item = items[i];
-					
-					var view = a.clone().append(	div.clone().append(item.title + ", " + item.content + item.seq)	).attr("href","Update.page?seq="+item.seq);
-					
-					Content.append(view);
-					
+					var view = a.clone().append(div.clone().append(item.title + ", " + item.content + item.seq)).attr("href","Update.page?seq="+item.seq);
+					Content.append(view).append(button.clone().attr("seq",item.seq));
 				}
+				
+				$('.delid').click(function(){
+					var delpara = {
+							"seq" : $(this).attr("seq")
+					};
+					console.log(delpara.seq);
+					 $.ajax({
+						type : 'post',
+						url : 'deleteBoardList.json',
+						contentType : "application/json",
+						dataType : 'json',
+						data : JSON.stringify(delpara),
+						success : function(data) {
+							console.log(data);
+							var delitem = data.result.seq;
+							$(delitem).remove();
+							var url = "Index.page";			
+							$(location).attr('href',url);
+						}
+					});
+				})
+				
 			}
 		});
 	})
